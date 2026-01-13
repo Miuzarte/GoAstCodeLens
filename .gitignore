@@ -1,0 +1,11 @@
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
+
+astCounter/astCounter
+astCounter/astCounter.exe
+
+.claude/*
+tmpclaude*

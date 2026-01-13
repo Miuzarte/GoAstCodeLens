@@ -1,0 +1,69 @@
+{
+  "name": "go-ast-codelens",
+  "displayName": "GoASTCodeLens",
+  "description": "Displays AST node counts for Go functions via CodeLens, helping you identify functions suitable for inline optimization.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.108.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": ["onLanguage:go"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "go-ast-codelens.deleteCounter",
+        "title": "Go AST CodeLens: Delete AST Counter Binary"
+      },
+      {
+        "command": "go-ast-codelens.rebuildCounter",
+        "title": "Go AST CodeLens: Rebuild AST Counter Binary"
+      }
+    ],
+    "configuration": {
+      "title": "Go AST CodeLens",
+      "properties": {
+        "goAstCodeLens.debounceDelay": {
+          "type": "number",
+          "default": 1000,
+          "description": "Delay in milliseconds before recalculating AST nodes after typing stops"
+        },
+        "goAstCodeLens.showOnlyInlineable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Only show CodeLens for functions with less than 80 AST nodes (inlineable)"
+        },
+        "goAstCodeLens.maxFuncCalls": {
+          "type": "number",
+          "default": 1,
+          "description": "Maximum number of function calls allowed to show CodeLens (0 = no function calls allowed)"
+        },
+        "goAstCodeLens.showNoinline": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show CodeLens for functions with //go:noinline directive"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.108.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.52.0",
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
