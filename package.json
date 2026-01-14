@@ -2,7 +2,7 @@
   "name": "go-ast-codelens",
   "displayName": "GoASTCodeLens",
   "description": "Displays AST node counts for Go functions via CodeLens, helping you identify functions suitable for inline optimization.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "Miuzarte",
   "repository": {
     "type": "git",

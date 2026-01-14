@@ -2,6 +2,13 @@
 
 All notable changes to the "go-ast-codelens" extension will be documented in this file.
 
+## [0.0.2] - 2026-01-14
+
+### Fixed
+
+- Exclude type conversions from function call count
+- Automatic binary rebuild on extension update
+
 ## [0.0.1] - 2026-01-14
 
 ### Added

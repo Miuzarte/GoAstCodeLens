@@ -4,6 +4,8 @@ node_modules
 .vscode-test/
 *.vsix
 
+TODO.md
+
 astCounter/astCounter
 astCounter/astCounter.exe
 

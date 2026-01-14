@@ -62,10 +62,10 @@ func countFuncCalls(node ast.Node) int {
 	ast.Inspect(node, func(n ast.Node) bool {
 		if call, ok := n.(*ast.CallExpr); ok {
 			if ident, ok := call.Fun.(*ast.Ident); ok {
-				if _, isBuiltin := builtins[ident.Name]; !isBuiltin {
+				if _, isBuiltin := builtins[ident.Name]; !isBuiltin && ident.Obj != nil && ident.Obj.Kind == ast.Fun {
 					count++
 				}
-			} else {
+			} else if _, ok := call.Fun.(*ast.SelectorExpr); ok {
 				count++
 			}
 		}
@@ -77,9 +77,16 @@ func countFuncCalls(node ast.Node) int {
 func hasAnyCalls(node ast.Node) bool {
 	found := false
 	ast.Inspect(node, func(n ast.Node) bool {
-		if _, ok := n.(*ast.CallExpr); ok {
-			found = true
-			return false
+		if call, ok := n.(*ast.CallExpr); ok {
+			if ident, ok := call.Fun.(*ast.Ident); ok {
+				if _, isBuiltin := builtins[ident.Name]; isBuiltin || (ident.Obj != nil && ident.Obj.Kind == ast.Fun) {
+					found = true
+					return false
+				}
+			} else if _, ok := call.Fun.(*ast.SelectorExpr); ok {
+				found = true
+				return false
+			}
 		}
 		return true
 	})

@@ -104,6 +104,21 @@ export function activate(context: vscode.ExtensionContext) {
 	const ext = platform === 'win32' ? '.exe' : '';
 	const binaryPath = path.join(context.extensionPath, 'astCounter', `astCounter${ext}`);
 
+	const currentVersion = vscode.extensions.getExtension('Miuzarte.go-ast-codelens')?.packageJSON.version;
+	const lastVersion = context.globalState.get<string>('lastVersion');
+
+	if (lastVersion && lastVersion !== currentVersion) {
+		if (fs.existsSync(binaryPath)) {
+			fs.unlinkSync(binaryPath);
+		}
+		provider['ensureBinary'](context);
+		vscode.window.showInformationMessage(`Go AST CodeLens updated to v${currentVersion}. Binary rebuilt.`);
+	}
+
+	if (currentVersion) {
+		context.globalState.update('lastVersion', currentVersion);
+	}
+
 	context.subscriptions.push(
 		vscode.languages.registerCodeLensProvider({
 			language: 'go',
